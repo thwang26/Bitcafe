@@ -11,6 +11,16 @@ cache:
 script: "./gradlew clean build"
 notifications:
   slack:
-    secure: WnEmQOR52qBUjkrBjZciFdg8MUOcnlWQrxUe1b/ucIdSyPTYgNXM/jKqM298/mbwDOvmFtBCPYUaf2rHbjrC5rowgNYQF9HL4M1+Nmb/4VQWqr4nn6ifz5Qm6z1lVixYzmMOw8HmnxtT9sQXMcEiTy8oMJaOUNpM/dXi3GzDp0MS7MpzEzwjTO4baFL8uKEAjXIUbgPcPpxcVVnTQJ+PfbZt/bntwq/YWwGwOP/dH0pDXmg9ZSgkbIZGW3yde7tGnbK+/RCcL52Os3f+/2gESblLI/vK4Uv5YKqrXg8tiKZi2nfLIsorBiROY6jnOYlH4rMDL9/9Sr7QwLTfUkSF71UtmZrGuQ2fLMHmAPqaE83+vA9H4kzVHPpTawu78EToI3QI2zzihzmvq470AQ7up4zXJAfCG5aaUDv7DNCt5OY/aOdu/ZKX3GF2167aQAClGYXhkUVP6trzF3BphMwMrJ9E7//CJZtV3VjYJYB4N+/ses9p+WncMVbjv4DRnBL54cA/Wp8Q/zx5V0VD2gFv5wgGYI5nFHC5c9Fig9rA/QjFTjkk+fq8IEfs9QG9TwX4JpCX/64uHiGSctOUYhUE+fbq1EDz81b/VHarKlwfNVuSxZm93wewV+hZxXCJVrZPPBKnAEyR664WoGdrZfmZ0uJGj4HNr7nxUieDoAMBIHE=
+    template:
+      - "%{repository_slug} (%{commit}) : %{message}"
+      - "Build details: %{build_url}"
+    rooms:
+      - secure: WnEmQOR52qBUjkrBjZciFdg8MUOcnlWQrxUe1b/ucIdSyPTYgNXM/jKqM298/mbwDOvmFtBCPYUaf2rHbjrC5rowgNYQF9HL4M1+Nmb/4VQWqr4nn6ifz5Qm6z1lVixYzmMOw8HmnxtT9sQXMcEiTy8oMJaOUNpM/dXi3GzDp0MS7MpzEzwjTO4baFL8uKEAjXIUbgPcPpxcVVnTQJ+PfbZt/bntwq/YWwGwOP/dH0pDXmg9ZSgkbIZGW3yde7tGnbK+/RCcL52Os3f+/2gESblLI/vK4Uv5YKqrXg8tiKZi2nfLIsorBiROY6jnOYlH4rMDL9/9Sr7QwLTfUkSF71UtmZrGuQ2fLMHmAPqaE83+vA9H4kzVHPpTawu78EToI3QI2zzihzmvq470AQ7up4zXJAfCG5aaUDv7DNCt5OY/aOdu/ZKX3GF2167aQAClGYXhkUVP6trzF3BphMwMrJ9E7//CJZtV3VjYJYB4N+/ses9p+WncMVbjv4DRnBL54cA/Wp8Q/zx5V0VD2gFv5wgGYI5nFHC5c9Fig9rA/QjFTjkk+fq8IEfs9QG9TwX4JpCX/64uHiGSctOUYhUE+fbq1EDz81b/VHarKlwfNVuSxZm93wewV+hZxXCJVrZPPBKnAEyR664WoGdrZfmZ0uJGj4HNr7nxUieDoAMBIHE=
+    on_success: always
+    on_failure: always
+    on_error: always
+    on_cancel: always
+    on_start: always
+    on_pull_requests: true
 before_install:
 - chmod +x gradlew
