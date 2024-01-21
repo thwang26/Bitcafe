@@ -19,3 +19,6 @@ notifications:
   email:
     recipients:
       - htw1203@gmail.com
+
+before-script:
+  chmod +x gradlew
