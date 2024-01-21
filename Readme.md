@@ -3,6 +3,7 @@
 [기존 프로젝트](https://github.com/thwang26/bitcampProject)의 Jsp, Spring, Mybatis 구조에서 Spring Boot를 활용한 
 Rest Api, Jpa로 리팩토링 한 프로젝트
 
+[![Build Status](https://app.travis-ci.com/thwang26/Bitcafe.svg?branch=main)](https://app.travis-ci.com/thwang26/Bitcafe)
 ---
 
 Commit Message Convention
