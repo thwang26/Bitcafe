@@ -23,6 +23,7 @@ before_install:
 - chmod +x gradlew
 deploy:
   - provider: s3
+    local_dir: deploy
     access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
     secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값
     bucket: thwang2-deploy # 6-3-3에서 생성한 S3 버킷
@@ -33,3 +34,7 @@ deploy:
     on:
       repo: thwang26/Bitcafe #Github 주소
       branch: main
+before_deploy:
+  - zip -r springboot-webservice *
+  - mkdir -p deploy
+  - mv springboot-webservice.zip deploy/springboot-webservice.zip
