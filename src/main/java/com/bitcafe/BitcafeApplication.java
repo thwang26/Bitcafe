@@ -8,7 +8,9 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 public class BitcafeApplication {
 
     public static final String APPLICATION_LOCATIONS = "spring.config.location="
-            + "/app/config/application.yml,"
+//            + "classpath:application.yml,"
+//            + "classpath:real-application.yml";
+            + "/app/config/springboot-webservice/application.yml,"
             + "/app/config/springboot-webservice/real-application.yml";
 
     public static void main(String[] args) {
@@ -16,9 +18,5 @@ public class BitcafeApplication {
                 .properties(APPLICATION_LOCATIONS)
                 .run(args);
     }
-
-//    public static void main(String[] args) {
-//        SpringApplication.run(BitcafeApplication.class, args);
-//    }
 
 }
