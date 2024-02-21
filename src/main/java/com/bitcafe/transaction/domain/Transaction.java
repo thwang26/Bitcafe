@@ -1,6 +1,7 @@
-package com.bitcafe.domain;
+package com.bitcafe.transaction.domain;
 
-import com.bitcafe.domain.baseEntity.BaseTimeEntity;
+import com.bitcafe.global.domain.BaseTimeEntity;
+import com.bitcafe.order.domain.Orders;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,12 +13,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-public class OrderDetails extends BaseTimeEntity {
+public class Transaction extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     private Orders orders;
-    @ManyToOne
-    private Menu menu;
 }

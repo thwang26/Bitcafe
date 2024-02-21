@@ -1,4 +1,4 @@
-package com.bitcafe.domain.baseEntity;
+package com.bitcafe.global.domain;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

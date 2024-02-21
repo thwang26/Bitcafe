@@ -1,6 +1,7 @@
-package com.bitcafe.domain;
+package com.bitcafe.menu.domain;
 
-import com.bitcafe.domain.baseEntity.BaseImageEntity;
+import com.bitcafe.global.domain.BaseImageEntity;
+import com.bitcafe.category.domain.Category;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

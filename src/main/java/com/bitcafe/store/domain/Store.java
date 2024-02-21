@@ -1,9 +1,8 @@
-package com.bitcafe.domain;
+package com.bitcafe.store.domain;
 
-import com.bitcafe.domain.baseEntity.BaseImageEntity;
+import com.bitcafe.global.domain.BaseImageEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -13,19 +12,18 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 @Entity
-public class Member extends BaseImageEntity {
+public class Store extends BaseImageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true, nullable = false)
-    private String nickname;
-    @Column(nullable = false)
-    private String password;
+    private String storeName;
     @Column(unique = true, nullable = false)
-    private String email;
-    @Column(unique = true, nullable = false)
-    private String phoneNumber;
+    private String storeAddr;
     @Column(nullable = false)
-    @Builder.Default
-    private boolean isDeleted = false;
+    private double lat;
+    @Column(nullable = false)
+    private double lng;
+    @Column(unique = true, nullable = false)
+    private String storePhone;
 }
