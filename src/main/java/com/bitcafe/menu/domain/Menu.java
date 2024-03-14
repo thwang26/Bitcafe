@@ -21,5 +21,6 @@ public class Menu extends BaseImageEntity {
     private String menuContent;
     private Integer menuPrice;
     @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
 }
