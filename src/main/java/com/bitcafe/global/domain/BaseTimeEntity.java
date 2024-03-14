@@ -1,7 +1,10 @@
 package com.bitcafe.global.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -13,11 +16,13 @@ import java.time.LocalDateTime;
 
 @Getter
 @MappedSuperclass
-@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
-@EntityListeners(AuditingEntityListener.class)
+@EntityListeners(value = AuditingEntityListener.class)
 public abstract class BaseTimeEntity {
     @CreatedDate
+    @Column(updatable = false, nullable = false)
     private LocalDateTime createdAt;
     @LastModifiedDate
     private LocalDateTime modifiedAt;
