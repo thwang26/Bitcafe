@@ -1,0 +1,21 @@
+### 1. 회원가입
+POST http://localhost:8080/member/register
+Content-Type: application/json
+
+{
+  "username": "test",
+  "email": "test@naver.com",
+  "password": "password1234"
+}
+
+### 2. 로그인
+POST http://localhost:8080/member/authenticate
+Content-Type: application/json
+
+{
+  "email": "test@naver.com",
+  "password": "password1234"
+}
+
+#### 2. 테스트
+#GET http://localhost:8080/member/test
