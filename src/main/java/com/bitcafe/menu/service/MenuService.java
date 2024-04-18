@@ -30,9 +30,11 @@ public class MenuService {
     }
 
     public MenuResponse getMenu(Long id) {
-        Menu menu = menuRepository.findById(id)
-                .orElseThrow(() -> new MenuException(NO_MENU));
+        return MenuResponse.from(getMenuEntity(id));
+    }
 
-        return MenuResponse.from(menu);
+    public Menu getMenuEntity(Long id) {
+        return menuRepository.findById(id)
+                .orElseThrow(() -> new MenuException(NO_MENU));
     }
 }

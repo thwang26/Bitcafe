@@ -4,6 +4,8 @@ import com.bitcafe.global.security.service.JwtService;
 import com.bitcafe.member.domain.Member;
 import com.bitcafe.member.dto.Authentication;
 import com.bitcafe.member.dto.RegisterRequest;
+import com.bitcafe.member.exception.MemberErrorCode;
+import com.bitcafe.member.exception.MemberException;
 import com.bitcafe.member.repository.MemberRepository;
 import com.bitcafe.member.type.Role;
 import lombok.RequiredArgsConstructor;
@@ -50,5 +52,10 @@ public class MemberService {
         return Authentication.Response.builder()
                 .token(jwtToken)
                 .build();
+    }
+
+    public Member getMember(String email) {
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.NO_MEMBER));
     }
 }

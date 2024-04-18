@@ -26,7 +26,7 @@ public class MemberController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<Authentication.Response> register(
+    public ResponseEntity<Authentication.Response> authenticate(
             @RequestBody Authentication.Request request
     ) {
         return ResponseEntity.ok(memberService.authenticate(request));

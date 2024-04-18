@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 public class Authentication {
     @Getter
-    @Builder
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Request {
