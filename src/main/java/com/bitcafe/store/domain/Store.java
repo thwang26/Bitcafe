@@ -21,9 +21,9 @@ public class Store extends BaseImageEntity {
     @Column(unique = true, nullable = false)
     private String storeAddr;
     @Column(nullable = false)
-    private double lat;
+    private Double lat;
     @Column(nullable = false)
-    private double lng;
-    @Column(unique = true, nullable = false)
+    private Double lng;
+    @Column(nullable = false)
     private String storePhone;
 }
