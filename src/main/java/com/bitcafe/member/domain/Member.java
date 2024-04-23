@@ -1,6 +1,5 @@
 package com.bitcafe.member.domain;
 
-import com.bitcafe.cart.domain.Cart;
 import com.bitcafe.global.domain.BaseImageEntity;
 import com.bitcafe.member.type.Role;
 import jakarta.persistence.Column;
@@ -10,7 +9,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,7 +17,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -43,12 +40,6 @@ public class Member extends BaseImageEntity implements UserDetails {
     private boolean isDeleted = false;
     @Enumerated(EnumType.STRING)
     private Role role;
-    @OneToMany(mappedBy = "member")
-    private List<Cart> cartList = new ArrayList<>();
-
-    public void addToCart(Cart cart) {
-        cartList.add(cart);
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
