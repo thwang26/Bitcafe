@@ -20,7 +20,7 @@ public class Menu extends BaseImageEntity {
     private String menuName;
     private String menuContent;
     private Integer menuPrice;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 }

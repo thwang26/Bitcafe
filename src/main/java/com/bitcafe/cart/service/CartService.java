@@ -30,26 +30,13 @@ public class CartService {
                 .menu(menuService.getMenuEntity(cartRequest.getMenuId()))
                 .qty(cartRequest.getQty())
                 .build();
-        member.addToCart(cart);
         cartRepository.save(cart);
     }
 
     public List<CartResponse> getCartList(String email) {
-//        return memberService.getMember(email)
-//                .getCartList()
-//                .stream()
-//                .map(CartResponse::from)
-//                .collect(Collectors.toList());
-// 쿼리 2개 / member 조회 후 member와 연관된 cart를 불러옴
-        // 최소 13ms
         return cartRepository.findAllByMemberEmail(email)
                 .stream()
                 .map(CartResponse::from)
                 .collect(Collectors.toList());
-        // 쿼리 3개 / member와 연관된 cart를 불러온 후
-        // member id로 member를 불러옴?
-        // menu와 연관된 카테고리를 불러옴
-        // 최소 13ms
-        // 무슨 차이?
     }
 }
