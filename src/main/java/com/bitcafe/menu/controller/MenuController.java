@@ -17,7 +17,7 @@ import java.util.List;
 public class MenuController {
     private final MenuService menuService;
 
-    @GetMapping("/{categoryId}")
+    @GetMapping("/list/{categoryId}")
     ResponseEntity<List<MenuResponse>> getMenuList(
             @PathVariable(value = "categoryId") Long id) {
         return ResponseEntity.ok(menuService.getMenuList(id));
