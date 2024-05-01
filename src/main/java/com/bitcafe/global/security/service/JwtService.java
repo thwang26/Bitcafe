@@ -1,5 +1,6 @@
 package com.bitcafe.global.security.service;
 
+import com.bitcafe.global.security.exception.JwtException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -14,6 +15,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+
+import static com.bitcafe.global.security.exception.JwtErrorCode.INVALID_TOKEN;
+import static com.bitcafe.global.security.exception.JwtErrorCode.TOKEN_EXPIRED;
 
 @Service
 public class JwtService {
@@ -49,14 +53,8 @@ public class JwtService {
                 .compact();
     }
 
-    // 유효한 토큰인지 확인 (이름이 다르거나, 만료되었는지 확인)
-    public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
-    }
-
     // 토큰 만료여부 확인
-    private boolean isTokenExpired(String token) {
+    public boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 

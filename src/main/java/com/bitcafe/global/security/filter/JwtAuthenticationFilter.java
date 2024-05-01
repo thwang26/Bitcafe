@@ -1,5 +1,6 @@
-package com.bitcafe.global.security.config;
+package com.bitcafe.global.security.filter;
 
+import com.bitcafe.global.security.exception.JwtException;
 import com.bitcafe.global.security.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -12,13 +13,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Objects;
 
-@Component
+import static com.bitcafe.global.security.exception.JwtErrorCode.EMPTY_TOKEN;
+import static com.bitcafe.global.security.exception.JwtErrorCode.INVALID_TOKEN;
+import static com.bitcafe.global.security.exception.JwtErrorCode.TOKEN_EXPIRED;
+
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     static final String PREFIX = "Bearer ";
@@ -34,26 +37,34 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String userEmail;
-        if (Objects.isNull(authHeader) || !authHeader.startsWith(PREFIX)) {
-            filterChain.doFilter(request, response);
-            return;
+
+        if (Objects.isNull(authHeader)) {
+            throw new JwtException(EMPTY_TOKEN);
         }
+
+        if (!authHeader.startsWith(PREFIX)) {
+            throw new JwtException(INVALID_TOKEN);
+        }
+
         jwt = authHeader.substring(PREFIX.length());
         userEmail = jwtService.extractUsername(jwt);
-        if (Objects.nonNull(userEmail)
-                && Objects.isNull(SecurityContextHolder.getContext().getAuthentication())) {
+        if (Objects.nonNull(userEmail) && Objects.isNull(SecurityContextHolder.getContext().getAuthentication())) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-            if (jwtService.isTokenValid(jwt, userDetails)) {
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails.getAuthorities()
-                );
-                authToken.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
-                );
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+
+            if (jwtService.isTokenExpired(jwt)) {
+                throw new JwtException(TOKEN_EXPIRED);
             }
+
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                    userDetails,
+                    null,
+                    userDetails.getAuthorities()
+            );
+            authToken.setDetails(
+                    new WebAuthenticationDetailsSource().buildDetails(request)
+            );
+            SecurityContextHolder.getContext().setAuthentication(authToken);
+
         }
         filterChain.doFilter(request, response);
     }

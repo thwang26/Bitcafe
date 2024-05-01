@@ -1,13 +1,17 @@
 package com.bitcafe.global.security.config;
 
-import lombok.RequiredArgsConstructor;
+import com.bitcafe.global.security.filter.JwtAuthenticationFilter;
+import com.bitcafe.global.security.filter.JwtExceptionFilter;
+import com.bitcafe.global.security.service.JwtService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -19,11 +23,17 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
+    private final JwtExceptionFilter jwtExceptionFilter;
     private final AuthenticationProvider authenticationProvider;
+
+    public SecurityConfig(JwtService jwtService, UserDetailsService userDetailsService, AuthenticationProvider authenticationProvider) {
+        this.jwtAuthFilter = new JwtAuthenticationFilter(jwtService, userDetailsService);
+        this.jwtExceptionFilter = new JwtExceptionFilter();
+        this.authenticationProvider = authenticationProvider;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -32,23 +42,27 @@ public class SecurityConfig {
                         .configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        auth -> auth.requestMatchers("/member/**",
-                                        "/swagger-ui/**",
-                                        "/swagger-resources/**",
-                                        "/v2/**",
-                                        "/v3/**",
-                                        "/category/**")
-                                .permitAll()
-                                .anyRequest()
-                                .authenticated()
+                        auth -> auth.anyRequest().authenticated()
                 )
                 .sessionManagement(
                         config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring()
+                .requestMatchers("/member/**",
+                        "/swagger-ui/**",
+                        "/swagger-resources/**",
+                        "/v2/**",
+                        "/v3/**",
+                        "/category/**");
     }
 
     private CorsConfigurationSource corsConfigurationSource() {
