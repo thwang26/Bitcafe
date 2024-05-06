@@ -62,7 +62,8 @@ public class SecurityConfig {
                         "/swagger-resources/**",
                         "/v2/**",
                         "/v3/**",
-                        "/category/**");
+                        "/category/**"
+                );
     }
 
     private CorsConfigurationSource corsConfigurationSource() {

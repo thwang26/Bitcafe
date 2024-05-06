@@ -1,5 +1,6 @@
 package com.bitcafe.global.security.config;
 
+import com.bitcafe.member.exception.MemberException;
 import com.bitcafe.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -9,9 +10,10 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import static com.bitcafe.member.exception.MemberErrorCode.NO_MEMBER;
 
 @Configuration
 @RequiredArgsConstructor
@@ -21,9 +23,8 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> memberRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 " +
-                        "없습니다."));
+        return id -> memberRepository.findById(Long.parseLong(id))
+                .orElseThrow(() -> new MemberException(NO_MEMBER));
     }
 
     @Bean

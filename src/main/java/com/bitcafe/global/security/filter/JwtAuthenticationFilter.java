@@ -36,7 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
-        final String userEmail;
+        final String id;
 
         if (Objects.isNull(authHeader)) {
             throw new JwtException(EMPTY_TOKEN);
@@ -51,9 +51,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (jwtService.isTokenExpired(jwt)) {
             throw new JwtException(TOKEN_EXPIRED);
         }
-        userEmail = jwtService.extractUsername(jwt);
-        if (Objects.nonNull(userEmail) && Objects.isNull(SecurityContextHolder.getContext().getAuthentication())) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+        id = jwtService.extractUsername(jwt);
+        if (Objects.nonNull(id) && Objects.isNull(SecurityContextHolder.getContext().getAuthentication())) {
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(id);
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                     userDetails,
                     null,
