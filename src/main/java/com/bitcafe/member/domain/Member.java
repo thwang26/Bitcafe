@@ -48,7 +48,7 @@ public class Member extends BaseImageEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return String.valueOf(id);
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.bitcafe.cart.controller;
 
 import com.bitcafe.cart.dto.CartRequest;
 import com.bitcafe.cart.dto.CartResponse;
-import com.bitcafe.cart.service.CartService;
+import com.bitcafe.cart.facade.CartFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,19 +21,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CartController {
 
-    private final CartService cartService;
+    private final CartFacade cartFacade;
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<String> addToCart(@AuthenticationPrincipal UserDetails userDetails,
                                             @RequestBody CartRequest cartRequest) {
-        cartService.addToCart(userDetails.getUsername(), cartRequest);
+        cartFacade.addToCart(Long.parseLong(userDetails.getUsername()), cartRequest);
         return ResponseEntity.ok("장바구니 등록을 성공하였습니다.");
     }
 
     @GetMapping("/detail")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<CartResponse>> getCartList(@AuthenticationPrincipal UserDetails userDetails) {
-        return ResponseEntity.ok(cartService.getCartList(userDetails.getUsername()));
+        return ResponseEntity.ok(cartFacade.getCartList(Long.parseLong(userDetails.getUsername())));
     }
 }
