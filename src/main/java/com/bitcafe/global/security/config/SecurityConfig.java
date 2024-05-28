@@ -62,7 +62,9 @@ public class SecurityConfig {
                         "/swagger-resources/**",
                         "/v2/**",
                         "/v3/**",
-                        "/category/**"
+                        "/category/**",
+                        "/menu/**",
+                        "/store/**"
                 );
     }
 

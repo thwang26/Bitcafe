@@ -23,15 +23,15 @@ public class CartController {
 
     private final CartFacade cartFacade;
 
-    @PostMapping("/add")
+    @PostMapping("")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<String> addToCart(@AuthenticationPrincipal UserDetails userDetails,
-                                            @RequestBody CartRequest cartRequest) {
+                                            @RequestBody CartRequest cartRequest) throws InterruptedException {
         cartFacade.addToCart(Long.parseLong(userDetails.getUsername()), cartRequest);
         return ResponseEntity.ok("장바구니 등록을 성공하였습니다.");
     }
 
-    @GetMapping("/detail")
+    @GetMapping("")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<CartResponse>> getCartList(@AuthenticationPrincipal UserDetails userDetails) {
         return ResponseEntity.ok(cartFacade.getCartList(Long.parseLong(userDetails.getUsername())));

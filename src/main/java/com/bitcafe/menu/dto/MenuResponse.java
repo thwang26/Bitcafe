@@ -12,6 +12,7 @@ public class MenuResponse {
     private Long id;
     private String menuName;
     private String menuContent;
+    private String menuDescription;
     private Integer menuPrice;
     private String imagePath;
 
@@ -20,6 +21,7 @@ public class MenuResponse {
                 .id(menu.getId())
                 .menuName(menu.getMenuName())
                 .menuContent(menu.getMenuContent())
+                .menuDescription(menu.getMenuDescription())
                 .menuPrice(menu.getMenuPrice())
                 .imagePath(menu.getImagePath())
                 .build();

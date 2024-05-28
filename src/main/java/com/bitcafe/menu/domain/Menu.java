@@ -19,6 +19,7 @@ public class Menu extends BaseImageEntity {
     private Long id;
     private String menuName;
     private String menuContent;
+    public String menuDescription;
     private Integer menuPrice;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
